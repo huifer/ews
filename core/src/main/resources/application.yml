@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    driver-class-name: org.sqlite.JDBC
+    password: admin
+    url: jdbc:sqlite:sqlitesample.db
+    username: admin
+  jpa:
+    database-platform: com.github.huifer.ews.persistence.SQLDialect
+    hibernate:
+      ddl-auto: update
