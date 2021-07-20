@@ -21,10 +21,10 @@ import lombok.NoArgsConstructor;
 @Table(name = "role")
 public class RuleEntity {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private Integer id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer id;
 
-  @Column(name = "name", columnDefinition = "规则名称")
-  private String name;
+	@Column(name = "name", columnDefinition = "规则名称")
+	private String name;
 }

@@ -1,5 +1,20 @@
 # 实体与服务
 
+## 处理流程
+
+1. 创建规则。
+2. 为规则创建规则详情
+3. 创建事件表（目前是http接口），先解决POST接口
+4. 创建对象转换表。对象转换表需要和规则表事件表进行绑定。
+
+---
+处理流程。
+
+1. 接收规则ID，查询规则详细
+2.
+
+## 2
+
 - 规则说明表
 
 | 规则ID | 规则名称       |
@@ -36,22 +51,18 @@
 |          |               |      |
 |          |               |      |
 
-
-
 ```json
 {
-    username:"aaa",
-    age:"123",
-    is_new:true,
-    email:"aaa@qq.com"
+    "username":"aaa",
+    "age":"123",
 }
 ```
 
 ```java
-if (is_new == true && age > 10 || ange <45){
-    
+if(is_new==true&&age>10||ange<45){
+
     // 发邮件
-}
+    }
 ```
 
 ```json
@@ -64,9 +75,5 @@ if (is_new == true && age > 10 || ange <45){
     "array":[123,"aaa"]
 }
 ```
-
-
-
-
 
 Role

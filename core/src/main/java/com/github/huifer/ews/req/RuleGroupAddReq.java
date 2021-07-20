@@ -5,9 +5,10 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class RuleGroup {
+public class RuleGroupAddReq {
 
-  private List<RuleInfoEntity> rules;
-  private String name;
-  private String uid;
+	private List<RuleInfoEntity> rules;
+	private String name;
+	private Integer ruleId;
+
 }
