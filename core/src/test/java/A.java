@@ -1,10 +1,17 @@
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.huifer.ews.util.JsonUtil;
+import com.google.gson.Gson;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
+
 import java.io.StringReader;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+
+import org.assertj.core.util.Arrays;
+import org.omg.CORBA.SetOverrideType;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
@@ -13,51 +20,49 @@ import org.springframework.expression.spel.support.StandardEvaluationContext;
 import pl.jalokim.propertiestojson.util.PropertiesToJsonConverter;
 
 public class A {
-
-	public static final String json = "{\n"
-			+ "    \"username\":\"zhangsan\",\n"
-			+ "    \"is_new\": true,\n"
-			+ "    \"mail\":\"xxx@xxx.com\",\n"
-			+ "    \"age\":18\n"
-			+ "}";
+	public static final String JSON = "{\n" +
+			"  \"username\": \"aaa\",\n" +
+			"  \"age\": \"10\",\n" +
+			"  \"role\": [\n" +
+			"    {\n" +
+			"      \"id\": 1,\n" +
+			"      \"name\": \"zs\",\n" +
+			"      \"age\": 30\n" +
+			"    },\n" +
+			"    {\n" +
+			"      \"id\": 2,\n" +
+			"      \"name\": \"ls\",\n" +
+			"      \"age\": 23\n" +
+			"    }\n" +
+			"\n" +
+			"  ]\n" +
+			"}";
+	static Gson gson = new Gson();
 
 	public static void main(String[] args) throws Exception {
-		String jsonpathCreatorNamePath = "$['age']";
-		DocumentContext jsonContext = JsonPath.parse(json);
-		Object jsonpathCreatorName = jsonContext.read(jsonpathCreatorNamePath);
+
+		String key = "role[*].age";
+		Map map = gson.fromJson(JSON, Map.class);
+		Object role = map.get("role");
+		int size = -1;
+		if (role instanceof Collection) {
+			size = ((Collection<?>) role).size();
+		}
+		if (Arrays.isArray(role)) {
+			size = Arrays.array(role).length;
+		}
+		Properties properties = JsonUtil.getProperties(JSON);
+		for (int i = 0; i < size; i++) {
+
+			String replace = key.replace("*", String.valueOf(i));
+			String property = properties.getProperty(replace);
+			System.out.println(property);
+		}
+
+
+		DocumentContext jsonContext = JsonPath.parse(JSON	);
+		Object jsonpathCreatorName = jsonContext.read("$['role'][*]['age']");
 		System.out.println();
-
-		ExpressionParser parser = new SpelExpressionParser();
-//    Expression exp = parser.parseExpression(jsonpathCreatorName.toString()+  " == true");
-		Expression exp = parser.parseExpression("2!=1");
-		EvaluationContext context = new StandardEvaluationContext();
-		Boolean value = exp.getValue(context, Boolean.class);
-
-		System.out.println(value);
-
-		Properties properties = new Properties();
-		properties.setProperty("age", "123");
-		properties.setProperty("event.age", "123");
-		properties.setProperty("event.aaa", "123");
-		properties.setProperty("array[0]", "123");
-		properties.setProperty("array[1]", "aaa");
-
-		String json = new PropertiesToJsonConverter().convertToJson(properties);
-		System.out.println(json);
-
-		ObjectMapper objectMapper = new ObjectMapper();
-		StringBuilder og = new StringBuilder();
-		Map props = JsonUtil.transformJsonToMap(objectMapper.readTree(json), null, og);
-
-		System.out.println(og);
-		Properties properties1 = new Properties();
-		properties1.load(new StringReader(og.toString()));
-		System.out.println();
-
-		exp = parser.parseExpression("true && true || false");
-		context = new StandardEvaluationContext();
-		value = exp.getValue(context, Boolean.class);
-		System.out.println(value);
 	}
 
 

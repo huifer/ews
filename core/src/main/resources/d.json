@@ -1,0 +1,17 @@
+{
+  "username": "aaa",
+  "age": "10",
+  "role": [
+    {
+      "id": 1,
+      "name": "zs",
+      "age": 30
+    },
+    {
+      "id": 2,
+      "name": "ls",
+      "age": 23
+    }
+
+  ]
+}
