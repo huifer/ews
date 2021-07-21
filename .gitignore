@@ -40,3 +40,29 @@ target
 secrets.yml
 .gradletasknamecache
 .sts4-cache
+# Compiled class file
+*.class
+*.iml
+*.idea
+target/
+logs/
+docs/
+download/
+
+# Log file
+*.log
+*.bak
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Eclipse #
+.classpath
+.project
+.settings/
+.gradle/
