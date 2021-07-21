@@ -38,16 +38,15 @@ public class RcoController {
 	private final RuleInfoEntityRepo ruleInfoEntityRepo;
 	private final UrlEntityRepo urlEntityRepo;
 	private final ParamEntityRepo paramEntityRepo;
-	private final RestTemplate restTemplate;
 	ExpressionParser parser = new SpelExpressionParser();
 	EvaluationContext context = new StandardEvaluationContext();
+	private final RestTemplate restTemplate = new RestTemplate();
 
 
-	public RcoController(RuleInfoEntityRepo ruleInfoEntityRepo, UrlEntityRepo urlEntityRepo, ParamEntityRepo paramEntityRepo, RestTemplate restTemplate) {
+	public RcoController(RuleInfoEntityRepo ruleInfoEntityRepo, UrlEntityRepo urlEntityRepo, ParamEntityRepo paramEntityRepo) {
 		this.ruleInfoEntityRepo = ruleInfoEntityRepo;
 		this.urlEntityRepo = urlEntityRepo;
 		this.paramEntityRepo = paramEntityRepo;
-		this.restTemplate = restTemplate;
 	}
 
 	@PostMapping("/voic")
