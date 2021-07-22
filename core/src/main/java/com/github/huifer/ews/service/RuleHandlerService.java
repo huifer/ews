@@ -19,10 +19,7 @@ import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Properties;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -103,6 +100,21 @@ public class RuleHandlerService extends AbstractRuleHandler {
 			Boolean value = resolveEval(el);
 			log.info("当前处理el表达式=[{}],处理结果=[{}]", el, value);
 			booleans.add(value);
+		} else if (jsonpathCreatorName instanceof Collection) {
+			boolean b = false;
+			for (Object s : ((Collection<?>) jsonpathCreatorName)) {
+				String el = s + ruleInfoEntity.getOperatorEnum().getCode() + ruleInfoEntity
+						.getRelValue();
+				b = resolveEval(el).booleanValue();
+				if (b == false) {
+					break;
+				}
+			}
+			if (b) {
+				booleans.add(true);
+			} else {
+				booleans.add(false);
+			}
 		} else {
 			booleans.add(false);
 		}
