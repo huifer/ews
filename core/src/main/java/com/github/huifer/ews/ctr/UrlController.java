@@ -66,4 +66,19 @@ public class UrlController {
 		return ResponseEntity.ok(all);
 	}
 
+	@GetMapping("/url/param/query")
+	public ResponseEntity urlParamQuery(Integer urlId, PageParam pageParam) {
+		Specification<ParamEntity> specification = new Specification<ParamEntity>() {
+			@Override
+			public Predicate toPredicate(Root<ParamEntity> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+				List<Predicate> predicates = new ArrayList<>();
+				criteriaBuilder.equal(root.get("url_id"), urlId);
+				return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+			}
+		};
+		Pageable pageable = PageRequest.of(pageParam.getPage() - 1, pageParam.getLimit());
+		Page<ParamEntity> all = paramEntityRepo.findAll(specification, pageable);
+		return ResponseEntity.ok(all);
+
+	}
 }

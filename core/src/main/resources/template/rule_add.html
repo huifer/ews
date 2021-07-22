@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>规则表</title>
+    <link href="https://cdn.bootcss.com/element-ui/2.8.2/theme-chalk/index.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+    <script src="https://cdn.bootcss.com/vue-router/3.0.6/vue-router.js"></script>
+    <script src="https://cdn.bootcss.com/element-ui/2.8.2/index.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_HTML"></script>
+
+</head>
+<body>
+<div id="app">
+    <div id="rule_add">
+
+        <el-button type="text" @click="dialogVisible = true">添加规则</el-button>
+        <el-dialog
+                title="提示"
+                :visible.sync="dialogVisible"
+                width="30%"
+                :before-close="handleClose">
+            <el-input v-model="rule_info.left" placeholder="请输入内容"></el-input>
+            <el-select v-model="rule_info.operator_value" placeholder="请选择">
+                <el-option
+                        v-for="item in operator_list"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                </el-option>
+            </el-select>
+            <el-input v-model="rule_info.right" placeholder="请输入内容"></el-input>
+            <span slot="footer" class="dialog-footer">
+            <el-button @click="dialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="handlerOk">确 定</el-button>
+          </span>
+        </el-dialog>
+    </div>
+
+    <div id="rule_list">
+        <el-table
+                :data="tableData"
+                border
+                style="width: 100%">
+            <el-table-column
+                    type="index"
+                    width="50"
+                    label="序号"
+            >
+            </el-table-column>
+            <el-table-column
+                    prop="left"
+                    label="json path"
+                    width="180">
+            </el-table-column>
+            <el-table-column
+                    prop="operator_value"
+                    label="运算符">
+            </el-table-column>
+            <el-table-column
+                    prop="right"
+                    label="比较值">
+            </el-table-column>
+            <el-table-column
+                    label="操作">
+                <template slot-scope="scope">
+                    <el-button @click="remove_table(scope.row)" type="text" size="small">删除</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+    </div>
+
+    <div id="show_eval">
+        <input v-model="latex"/><br>
+        <div >{{latex}}</div>
+    </div>
+
+
+</div>
+
+</body>
+<script>
+    var vm = new Vue({
+        el: "#app",
+        data() {
+            return {
+                dialogVisible: false,
+                operator_list: [
+                    {
+                        value: '==',
+                        label: '等于'
+                    }, {
+                        value: '!=',
+                        label: '不等于'
+                    }, {
+                        value: '>=',
+                        label: '大于等于'
+                    }, {
+                        value: '>',
+                        label: '大于'
+                    }, {
+                        value: '<',
+                        label: '小于'
+                    }, {
+                        value: '<=',
+                        label: '小于等于'
+                    }],
+                rule_info: {
+                    id: "1",
+                    operator_value: '',
+                    left: "",
+                    right: ""
+                },
+                tableData: [],
+                latex: '',
+
+            }
+        },
+        methods: {
+            uuid() {
+                var s = [];
+                var hexDigits = "0123456789abcdef";
+                for (var i = 0; i < 36; i++) {
+                    s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+                }
+                s[14] = "4"; // bits 12-15 of the time_hi_and_version field to 0010
+                s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1); // bits 6-7 of the clock_seq_hi_and_reserved to 01
+                s[8] = s[13] = s[18] = s[23] = "-";
+
+                var uuid = s.join("");
+                return uuid;
+            },
+            handlerOk() {
+                this.tableData.push({
+                    id: this.uuid(),
+                    operator_value: this.rule_info.operator_value,
+                    left: this.rule_info.left,
+                    right: this.rule_info.right
+                });
+                this.dialogVisible = false;
+            },
+            handleClose(done) {
+                this.$confirm('确认关闭？')
+                    .then(_ => {
+                        done();
+                    })
+                    .catch(_ => {
+                    });
+            },
+            remove_table(row) {
+                console.log();
+                this.tableData = this.tableData.filter(v => v.id !== row.id);
+            },
+            reRender() {
+                if (window.MathJax) {
+                    window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub], () => console.log('done'));
+                }
+            }
+
+        },
+        mounted() {
+            this.reRender();
+
+        },
+        watch: {
+            latex: function () {
+                this.reRender();
+            }
+
+        }
+    });
+
+</script>
+</html>
