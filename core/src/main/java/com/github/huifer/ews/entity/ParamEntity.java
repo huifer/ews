@@ -1,13 +1,9 @@
 package com.github.huifer.ews.entity;
 
-import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import lombok.Data;
+
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @Entity
@@ -24,5 +20,6 @@ public class ParamEntity implements Serializable {
 	private String source;
 	@Column(name = "target", columnDefinition = "数据目标键")
 	private String target;
-
+	@Column(name = "default_value", columnDefinition = "默认值")
+	private String defaultValue;
 }

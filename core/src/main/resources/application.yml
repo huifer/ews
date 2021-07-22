@@ -2,7 +2,7 @@ spring:
   datasource:
     driver-class-name: org.sqlite.JDBC
     password: admin
-    url: jdbc:sqlite:sqlitesample.db
+    url: jdbc:sqlite:D:\desktop\sxe\entity_with_service\sqlitesample.db
     username: admin
 
   jpa:

@@ -1,23 +1,12 @@
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.huifer.ews.util.JsonUtil;
 import com.google.gson.Gson;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
+import org.assertj.core.util.Arrays;
 
-import java.io.StringReader;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-
-import org.assertj.core.util.Arrays;
-import org.omg.CORBA.SetOverrideType;
-import org.springframework.expression.EvaluationContext;
-import org.springframework.expression.Expression;
-import org.springframework.expression.ExpressionParser;
-import org.springframework.expression.spel.standard.SpelExpressionParser;
-import org.springframework.expression.spel.support.StandardEvaluationContext;
-import pl.jalokim.propertiestojson.util.PropertiesToJsonConverter;
 
 public class A {
 	public static final String JSON = "{\n" +
@@ -60,7 +49,7 @@ public class A {
 		}
 
 
-		DocumentContext jsonContext = JsonPath.parse(JSON	);
+		DocumentContext jsonContext = JsonPath.parse(JSON);
 		Object jsonpathCreatorName = jsonContext.read("$['role'][*]['age']");
 		System.out.println();
 	}

@@ -13,6 +13,7 @@ import java.util.List;
 public class Rt implements ApplicationRunner {
 	@Autowired
 	private ParamEntityRepo paramEntityRepo;
+
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		List<ParamEntity> byUrlId = paramEntityRepo.findByUrlId(1);

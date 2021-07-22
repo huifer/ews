@@ -5,11 +5,9 @@ import com.github.huifer.ews.entity.UrlEntity;
 import com.github.huifer.ews.persistence.ParamEntityRepo;
 import com.github.huifer.ews.persistence.UrlEntityRepo;
 import com.github.huifer.ews.req.UrlAddReq;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;

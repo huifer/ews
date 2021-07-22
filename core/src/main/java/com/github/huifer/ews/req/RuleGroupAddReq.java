@@ -1,8 +1,9 @@
 package com.github.huifer.ews.req;
 
 import com.github.huifer.ews.entity.RuleInfoEntity;
-import java.util.List;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class RuleGroupAddReq {

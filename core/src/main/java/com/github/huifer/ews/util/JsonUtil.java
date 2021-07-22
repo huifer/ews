@@ -2,6 +2,7 @@ package com.github.huifer.ews.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -23,7 +24,7 @@ public class JsonUtil {
 	}
 
 	public static Map<String, String> transformJsonToMap(JsonNode node, String prefix,
-			StringBuilder OG) {
+														 StringBuilder OG) {
 
 		Map<String, String> jsonMap = new HashMap<>();
 

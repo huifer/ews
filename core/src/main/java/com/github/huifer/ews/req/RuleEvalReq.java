@@ -10,12 +10,14 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EvalReq {
+public class RuleEvalReq {
 	/**
 	 * 1 && (2 ||3)
 	 * 123数据从ruleInfoEntities中来
 	 */
 	private String eval;
+
+	private String name;
 
 	private List<RuleInfoEntity> ruleInfoEntities;
 }
