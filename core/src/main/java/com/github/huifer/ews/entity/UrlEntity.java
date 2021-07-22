@@ -14,7 +14,7 @@ public class UrlEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
-	@Column(name = "url", columnDefinition = "规则名称")
+	@Column(name = "url", columnDefinition = "路由地址")
 	private String url;
 	@Column(name = "rule_id", columnDefinition = "规则id")
 	private Integer ruleId;
