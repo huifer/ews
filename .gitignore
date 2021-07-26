@@ -46,7 +46,6 @@ secrets.yml
 *.idea
 target/
 logs/
-docs/
 download/
 
 # Log file

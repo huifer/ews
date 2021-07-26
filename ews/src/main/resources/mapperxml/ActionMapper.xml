@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.huifer.ews.mapper.ActionMapper">
+	<resultMap id="BaseResultMap" type="com.github.huifer.ews.domain.db.Action">
+		<!--@mbg.generated-->
+		<!--@Table action-->
+		<id column="id" jdbcType="INTEGER" property="id"/>
+		<result column="scenes_id" jdbcType="INTEGER" property="scenesId"/>
+		<result column="http_method" jdbcType="VARCHAR" property="httpMethod"/>
+		<result column="url" jdbcType="VARCHAR" property="url"/>
+		<result column="example" jdbcType="VARCHAR" property="example"/>
+	</resultMap>
+	<sql id="Base_Column_List">
+		<!--@mbg.generated-->
+		id, scenes_id, http_method, url, example
+	</sql>
+	<update id="updateBatch" parameterType="java.util.List">
+		<!--@mbg.generated-->
+		update `action`
+		<trim prefix="set" suffixOverrides=",">
+			<trim prefix="scenes_id = case" suffix="end,">
+				<foreach collection="list" index="index" item="item">
+					when id = #{item.id,jdbcType=INTEGER} then #{item.scenesId,jdbcType=INTEGER}
+				</foreach>
+			</trim>
+			<trim prefix="http_method = case" suffix="end,">
+				<foreach collection="list" index="index" item="item">
+					when id = #{item.id,jdbcType=INTEGER} then #{item.httpMethod,jdbcType=VARCHAR}
+				</foreach>
+			</trim>
+			<trim prefix="url = case" suffix="end,">
+				<foreach collection="list" index="index" item="item">
+					when id = #{item.id,jdbcType=INTEGER} then #{item.url,jdbcType=VARCHAR}
+				</foreach>
+			</trim>
+			<trim prefix="example = case" suffix="end,">
+				<foreach collection="list" index="index" item="item">
+					when id = #{item.id,jdbcType=INTEGER} then #{item.example,jdbcType=VARCHAR}
+				</foreach>
+			</trim>
+		</trim>
+		where id in
+		<foreach close=")" collection="list" item="item" open="(" separator=", ">
+			#{item.id,jdbcType=INTEGER}
+		</foreach>
+	</update>
+	<update id="updateBatchSelective" parameterType="java.util.List">
+		<!--@mbg.generated-->
+		update `action`
+		<trim prefix="set" suffixOverrides=",">
+			<trim prefix="scenes_id = case" suffix="end,">
+				<foreach collection="list" index="index" item="item">
+					<if test="item.scenesId != null">
+						when id = #{item.id,jdbcType=INTEGER} then #{item.scenesId,jdbcType=INTEGER}
+					</if>
+				</foreach>
+			</trim>
+			<trim prefix="http_method = case" suffix="end,">
+				<foreach collection="list" index="index" item="item">
+					<if test="item.httpMethod != null">
+						when id = #{item.id,jdbcType=INTEGER} then #{item.httpMethod,jdbcType=VARCHAR}
+					</if>
+				</foreach>
+			</trim>
+			<trim prefix="url = case" suffix="end,">
+				<foreach collection="list" index="index" item="item">
+					<if test="item.url != null">
+						when id = #{item.id,jdbcType=INTEGER} then #{item.url,jdbcType=VARCHAR}
+					</if>
+				</foreach>
+			</trim>
+			<trim prefix="example = case" suffix="end,">
+				<foreach collection="list" index="index" item="item">
+					<if test="item.example != null">
+						when id = #{item.id,jdbcType=INTEGER} then #{item.example,jdbcType=VARCHAR}
+					</if>
+				</foreach>
+			</trim>
+		</trim>
+		where id in
+		<foreach close=")" collection="list" item="item" open="(" separator=", ">
+			#{item.id,jdbcType=INTEGER}
+		</foreach>
+	</update>
+	<insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+		<!--@mbg.generated-->
+		insert into `action`
+		(scenes_id, http_method, url, example)
+		values
+		<foreach collection="list" item="item" separator=",">
+			(#{item.scenesId,jdbcType=INTEGER}, #{item.httpMethod,jdbcType=VARCHAR}, #{item.url,jdbcType=VARCHAR},
+			#{item.example,jdbcType=VARCHAR})
+		</foreach>
+	</insert>
+	<insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="com.github.huifer.ews.domain.db.Action"
+			useGeneratedKeys="true">
+		<!--@mbg.generated-->
+		insert into `action`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			scenes_id,
+			http_method,
+			url,
+			example,
+		</trim>
+		values
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			#{scenesId,jdbcType=INTEGER},
+			#{httpMethod,jdbcType=VARCHAR},
+			#{url,jdbcType=VARCHAR},
+			#{example,jdbcType=VARCHAR},
+		</trim>
+		on duplicate key update
+		<trim suffixOverrides=",">
+			<if test="id != null">
+				id = #{id,jdbcType=INTEGER},
+			</if>
+			scenes_id = #{scenesId,jdbcType=INTEGER},
+			http_method = #{httpMethod,jdbcType=VARCHAR},
+			url = #{url,jdbcType=VARCHAR},
+			example = #{example,jdbcType=VARCHAR},
+		</trim>
+	</insert>
+	<insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id"
+			parameterType="com.github.huifer.ews.domain.db.Action" useGeneratedKeys="true">
+		<!--@mbg.generated-->
+		insert into `action`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="scenesId != null">
+				scenes_id,
+			</if>
+			<if test="httpMethod != null">
+				http_method,
+			</if>
+			<if test="url != null">
+				url,
+			</if>
+			<if test="example != null">
+				example,
+			</if>
+		</trim>
+		values
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="scenesId != null">
+				#{scenesId,jdbcType=INTEGER},
+			</if>
+			<if test="httpMethod != null">
+				#{httpMethod,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null">
+				#{url,jdbcType=VARCHAR},
+			</if>
+			<if test="example != null">
+				#{example,jdbcType=VARCHAR},
+			</if>
+		</trim>
+		on duplicate key update
+		<trim suffixOverrides=",">
+			<if test="id != null">
+				id = #{id,jdbcType=INTEGER},
+			</if>
+			<if test="scenesId != null">
+				scenes_id = #{scenesId,jdbcType=INTEGER},
+			</if>
+			<if test="httpMethod != null">
+				http_method = #{httpMethod,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null">
+				url = #{url,jdbcType=VARCHAR},
+			</if>
+			<if test="example != null">
+				example = #{example,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<select id="query" resultType="com.github.huifer.ews.domain.res.ActionVO">
+		SELECT
+		ac.*,
+		sc.name as scenesName
+		FROM `action` ac
+		LEFT JOIN scenes sc ON ac.scenes_id = sc.id
+		where 1 = 1
+		<if test="httpMethod != null and httpMethod != ''">
+			and ac.http_method = #{httpMethod}
+		</if>
+		<if test="scenesName != null and scenesName != ''">
+			and sc.name like COUNT('%',#{scenesName},'%')
+		</if>
+		<if test="url != null and url != ''">
+			and ac.url like COUNT('%',#{url,'%')
+		</if>
+	</select>
+</mapper>

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.huifer.ews.mapper.ActionParamMapper">
+  <resultMap id="BaseResultMap" type="com.github.huifer.ews.domain.db.ActionParam">
+    <!--@mbg.generated-->
+    <!--@Table action_param-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="action_id" jdbcType="INTEGER" property="actionId" />
+    <result column="expression" jdbcType="VARCHAR" property="expression" />
+    <result column="target" jdbcType="VARCHAR" property="target" />
+    <result column="default_value" jdbcType="VARCHAR" property="defaultValue" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, action_id, expression, target, default_value
+  </sql>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update action_param
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="action_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=INTEGER} then #{item.actionId,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="expression = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=INTEGER} then #{item.expression,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="target = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=INTEGER} then #{item.target,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="default_value = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=INTEGER} then #{item.defaultValue,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=INTEGER}
+    </foreach>
+  </update>
+  <update id="updateBatchSelective" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update action_param
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="action_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.actionId != null">
+            when id = #{item.id,jdbcType=INTEGER} then #{item.actionId,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="expression = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.expression != null">
+            when id = #{item.id,jdbcType=INTEGER} then #{item.expression,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="target = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.target != null">
+            when id = #{item.id,jdbcType=INTEGER} then #{item.target,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="default_value = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.defaultValue != null">
+            when id = #{item.id,jdbcType=INTEGER} then #{item.defaultValue,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=INTEGER}
+    </foreach>
+  </update>
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into action_param
+    (action_id, expression, target, default_value)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.actionId,jdbcType=INTEGER}, #{item.expression,jdbcType=VARCHAR}, #{item.target,jdbcType=VARCHAR}, 
+        #{item.defaultValue,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="com.github.huifer.ews.domain.db.ActionParam" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into action_param
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      action_id,
+      expression,
+      target,
+      default_value,
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      #{actionId,jdbcType=INTEGER},
+      #{expression,jdbcType=VARCHAR},
+      #{target,jdbcType=VARCHAR},
+      #{defaultValue,jdbcType=VARCHAR},
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=INTEGER},
+      </if>
+      action_id = #{actionId,jdbcType=INTEGER},
+      expression = #{expression,jdbcType=VARCHAR},
+      target = #{target,jdbcType=VARCHAR},
+      default_value = #{defaultValue,jdbcType=VARCHAR},
+    </trim>
+  </insert>
+  <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id" parameterType="com.github.huifer.ews.domain.db.ActionParam" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into action_param
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="actionId != null">
+        action_id,
+      </if>
+      <if test="expression != null">
+        expression,
+      </if>
+      <if test="target != null">
+        target,
+      </if>
+      <if test="defaultValue != null">
+        default_value,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="actionId != null">
+        #{actionId,jdbcType=INTEGER},
+      </if>
+      <if test="expression != null">
+        #{expression,jdbcType=VARCHAR},
+      </if>
+      <if test="target != null">
+        #{target,jdbcType=VARCHAR},
+      </if>
+      <if test="defaultValue != null">
+        #{defaultValue,jdbcType=VARCHAR},
+      </if>
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=INTEGER},
+      </if>
+      <if test="actionId != null">
+        action_id = #{actionId,jdbcType=INTEGER},
+      </if>
+      <if test="expression != null">
+        expression = #{expression,jdbcType=VARCHAR},
+      </if>
+      <if test="target != null">
+        target = #{target,jdbcType=VARCHAR},
+      </if>
+      <if test="defaultValue != null">
+        default_value = #{defaultValue,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+</mapper>

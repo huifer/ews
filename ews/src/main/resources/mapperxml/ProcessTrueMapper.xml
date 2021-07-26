@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.huifer.ews.mapper.ProcessTrueMapper">
+  <resultMap id="BaseResultMap" type="com.github.huifer.ews.domain.db.ProcessTrue">
+    <!--@mbg.generated-->
+    <!--@Table process_true-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="process_id" jdbcType="INTEGER" property="processId" />
+    <result column="action_id" jdbcType="INTEGER" property="actionId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, process_id, action_id
+  </sql>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update process_true
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="process_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=INTEGER} then #{item.processId,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="action_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=INTEGER} then #{item.actionId,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=INTEGER}
+    </foreach>
+  </update>
+  <update id="updateBatchSelective" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update process_true
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="process_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.processId != null">
+            when id = #{item.id,jdbcType=INTEGER} then #{item.processId,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="action_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.actionId != null">
+            when id = #{item.id,jdbcType=INTEGER} then #{item.actionId,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=INTEGER}
+    </foreach>
+  </update>
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into process_true
+    (process_id, action_id)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.processId,jdbcType=INTEGER}, #{item.actionId,jdbcType=INTEGER})
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="com.github.huifer.ews.domain.db.ProcessTrue" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into process_true
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      process_id,
+      action_id,
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      #{processId,jdbcType=INTEGER},
+      #{actionId,jdbcType=INTEGER},
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=INTEGER},
+      </if>
+      process_id = #{processId,jdbcType=INTEGER},
+      action_id = #{actionId,jdbcType=INTEGER},
+    </trim>
+  </insert>
+  <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id" parameterType="com.github.huifer.ews.domain.db.ProcessTrue" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into process_true
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="processId != null">
+        process_id,
+      </if>
+      <if test="actionId != null">
+        action_id,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="processId != null">
+        #{processId,jdbcType=INTEGER},
+      </if>
+      <if test="actionId != null">
+        #{actionId,jdbcType=INTEGER},
+      </if>
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=INTEGER},
+      </if>
+      <if test="processId != null">
+        process_id = #{processId,jdbcType=INTEGER},
+      </if>
+      <if test="actionId != null">
+        action_id = #{actionId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>
