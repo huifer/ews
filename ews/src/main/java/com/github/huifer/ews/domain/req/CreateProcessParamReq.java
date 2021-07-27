@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 public class CreateProcessParamReq {
-	private Process  process;
+	private Process process;
 	private List<Integer> trueActions;
 	private List<Integer> falseActions;
 }

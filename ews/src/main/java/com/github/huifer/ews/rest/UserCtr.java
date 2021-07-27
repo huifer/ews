@@ -21,12 +21,12 @@ public class UserCtr {
 	}
 
 	@GetMapping("/info")
-	public ResponseEntity info(){
+	public ResponseEntity info() {
 		Map<String, String> map = new HashMap<>();
-		map.put("roles","1");
-		map.put("introduction","hhh");
-		map.put("avatar","1");
-		map.put("name","admin");
+		map.put("roles", "1");
+		map.put("introduction", "hhh");
+		map.put("avatar", "1");
+		map.put("name", "admin");
 		return ResponseEntity.ok(map);
 
 	}

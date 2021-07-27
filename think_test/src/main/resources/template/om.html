@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+          name="viewport">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
+    <title>Document</title>
+    <link href="https://cdn.bootcss.com/element-ui/2.8.2/theme-chalk/index.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+    <script src="https://cdn.bootcss.com/vue-router/3.0.6/vue-router.js"></script>
+    <script src="https://cdn.bootcss.com/element-ui/2.8.2/index.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_HTML"></script>
+
+</head>
+<body>
+<div id="app">
+    <div>规则</div>
+    <el-table
+            :data="tableData"
+            style="width: 100%">
+        <el-table-column
+                label="序号"
+                prop="id"
+                width="180">
+        </el-table-column>
+        <el-table-column
+                label="json_path"
+                prop="date"
+                width="180">
+        </el-table-column>
+        <el-table-column
+                label="条件运算符"
+                prop="name"
+                width="180">
+        </el-table-column>
+        <el-table-column
+                label="比较值"
+                prop="address">
+        </el-table-column>
+    </el-table>
+    <input v-model="latex"/><br>
+    <div>{{latex}}</div>
+
+    <div>行为</div>
+    <table border="1">
+        <tr>
+            <th>序号</th>
+            <th>接口</th>
+            <th>参数配置</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>http://localhost:/8080/te</td>
+            <td>
+                <table border="1">
+                    <tr>
+                        <th>取值表达式</th>
+                        <th>目标键</th>
+                        <th>默认值</th>
+                    </tr>
+                    <tr>
+                        <td>$['age']</td>
+                        <td>name</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>$['age']</td>
+                        <td>name</td>
+                        <td>10</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>http://localhost:/8080/te</td>
+            <td>
+                <table border="1">
+                    <tr>
+                        <th>取值表达式</th>
+                        <th>目标键</th>
+                        <th>默认值</th>
+                    </tr>
+                    <tr>
+                        <td>$['age']</td>
+                        <td>name</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>$['age']</td>
+                        <td>name</td>
+                        <td>10</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+
+</div>
+</body>
+<script>
+    var vm = new Vue({
+        el: "#app",
+        data() {
+            return {
+                latex: '$$1||2(3&4)$$',
+                tableData: [{
+                    id: 1,
+                    date: 'age',
+                    name: '<',
+                    address: '40'
+                }, {
+                    id: 2,
+                    date: 'age',
+                    name: '>=',
+                    address: '30'
+                }, {
+                    id: 3,
+                    date: 'age',
+                    name: '!=',
+                    address: '20'
+                }, {
+                    id: 4,
+                    date: 'age',
+                    name: '==',
+                    address: '10'
+                }]
+            }
+        },
+        methods: {
+            reRender() {
+                if (window.MathJax) {
+                    console.log('rendering mathjax');
+                    window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub], () => console.log('done'));
+                }
+            }
+        },
+        mounted() {
+            this.reRender();
+        },
+        watch: {
+            latex: function () {
+                console.log('data changed')
+                this.reRender();
+            }
+        }
+    });
+</script>
+</html>

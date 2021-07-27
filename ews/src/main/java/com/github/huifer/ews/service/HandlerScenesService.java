@@ -1,7 +1,10 @@
 package com.github.huifer.ews.service;
 
+import com.github.huifer.ews.domain.db.Action;
+import com.github.huifer.ews.domain.db.ActionParam;
 import com.github.huifer.ews.domain.db.Process;
 import com.github.huifer.ews.domain.db.RuleDetail;
+import com.github.huifer.ews.domain.dto.ActionFull;
 import com.github.huifer.ews.domain.dto.ProcessDetail;
 import com.github.huifer.ews.domain.dto.ProcessFull;
 import com.github.huifer.ews.domain.dto.ScenesFull;
@@ -15,18 +18,24 @@ import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
+import pl.jalokim.propertiestojson.util.PropertiesToJsonConverter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 public class HandlerScenesService extends AbstractHandler {
 
+	private final RestTemplate restTemplate = new RestTemplate();
 	ExpressionParser parser = new SpelExpressionParser();
 	EvaluationContext context = new StandardEvaluationContext();
 	@Autowired
@@ -55,9 +64,49 @@ public class HandlerScenesService extends AbstractHandler {
 		Boolean aBoolean = checkProcessExpression(process, jsonData);
 		if (aBoolean) {
 			List<ProcessDetail> processTrues = processFull.getProcessTrues();
+			proc(processTrues, jsonData);
 		} else {
 			List<ProcessDetail> processFalses = processFull.getProcessFalses();
+			proc(processFalses, jsonData);
 		}
+	}
+
+	void process(ProcessDetail processDetail, String jsonData) {
+		ActionFull actionFull = processDetail.getActionFull();
+		Action action = actionFull.getAction();
+
+		String url = action.getUrl();
+		String httpMethod = action.getHttpMethod();
+		List<ActionParam> actionParams = actionFull.getActionParams();
+		// 参数列表
+		Properties params = new Properties();
+		for (ActionParam actionParam : actionParams) {
+			Object data = extractForJsonPath(jsonData, actionParam.getExpression());
+			params.put(actionParam.getTarget(),
+					extractForJsonPath(jsonData, data == null ?
+							actionParam.getDefaultValue() : data.toString()));
+		}
+		sendHttpMessage(url, params, httpMethod);
+	}
+
+	protected void sendHttpMessage(String url, Properties params, String httpMethod) {
+		switch (httpMethod) {
+			case "GET":
+				return;
+			case "POST_FORM":
+				forPostForm(url, params);
+				return;
+			case "POST_JSON":
+				forPostJson(url, params);
+				return;
+
+		}
+	}
+
+	private Object extractForJsonPath(String jsonData, String jsonPath) {
+		DocumentContext parse = JsonPath.parse(jsonData);
+		Object read = parse.read(jsonPath);
+		return read;
 	}
 
 	private Boolean checkProcessExpression(Process process, String jsonData) {
@@ -75,6 +124,27 @@ public class HandlerScenesService extends AbstractHandler {
 
 	}
 
+	protected void forPostJson(String url, Properties params) {
+		String paramsJson = new PropertiesToJsonConverter().convertToJson(params);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		HttpEntity<String> request = new HttpEntity<>(paramsJson, headers);
+		ResponseEntity<String> postForEntity = restTemplate.postForEntity(url, request, String.class);
+		String body = postForEntity.getBody();
+		System.out.println(body);
+	}
+
+	protected void forPostForm(String url, Properties params) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+		MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+		params.forEach((k, v) -> {
+			map.add(k.toString(), v.toString());
+		});
+		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
+		ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
+		System.out.println(response.getBody());
+	}
 
 	/**
 	 * 处理规则

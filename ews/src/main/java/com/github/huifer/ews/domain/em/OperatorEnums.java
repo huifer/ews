@@ -11,18 +11,6 @@ public enum OperatorEnums {
 	private final String name;
 	private final int id;
 
-	public String getCode() {
-		return code;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public int getId() {
-		return id;
-	}
-
 	OperatorEnums(String code, String name, int id) {
 		this.code = code;
 		this.name = name;
@@ -36,5 +24,17 @@ public enum OperatorEnums {
 			}
 		}
 		return null;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public int getId() {
+		return id;
 	}
 }

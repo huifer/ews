@@ -8,12 +8,19 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="ews" />
-        <module name="core" />
+        <module name="api" />
+        <module name="think_test" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="persistence" target="8" />
       <module name="persistence_with_redis" target="8" />
+      <module name="scheduling" target="1.8" />
     </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="scheduling" options="-parameters" />
+    </option>
   </component>
 </project>

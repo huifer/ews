@@ -37,11 +37,11 @@ public class ScenesService {
 		Scenes scenes = this.scenesMapper.selectById(sceneId);
 		if (scenes != null) {
 
-		ScenesFull scenesFull = new ScenesFull();
-		scenesFull.setScenes(scenes);
-		List<ProcessFull> fulls = processService.fulls(sceneId);
-		scenesFull.setProcessFulls(fulls);
-		return scenesFull;
+			ScenesFull scenesFull = new ScenesFull();
+			scenesFull.setScenes(scenes);
+			List<ProcessFull> fulls = processService.fulls(sceneId);
+			scenesFull.setProcessFulls(fulls);
+			return scenesFull;
 		}
 		return null;
 	}
