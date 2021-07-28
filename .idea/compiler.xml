@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="ews" />
+        <module name="core" />
         <module name="api" />
         <module name="think_test" />
       </profile>
