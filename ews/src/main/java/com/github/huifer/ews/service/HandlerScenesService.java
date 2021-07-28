@@ -45,12 +45,11 @@ public class HandlerScenesService extends AbstractHandler {
 
 	public void work(Integer sceneId, String jsonData) {
 
-		log.info("当前处理场景id=[{}]", sceneId);
+		log.info("当前处理场景id=[{}],处理数据=[{}]", sceneId, jsonData);
 		ScenesFull full = this.scenesService.full(sceneId);
 		if (full == null) {
 			return;
 		}
-
 		List<ProcessFull> processFulls = full.getProcessFulls();
 
 		for (ProcessFull processFull : processFulls) {
@@ -62,19 +61,19 @@ public class HandlerScenesService extends AbstractHandler {
 	private void handlerProcessFull(ProcessFull processFull, String jsonData) {
 		Process process = processFull.getProcess();
 		Boolean aBoolean = checkProcessExpression(process, jsonData);
+		log.info("当前处理对象=[{}],处理结果=[{}]", process, aBoolean);
 		if (aBoolean) {
-			List<ProcessDetail> processTrues = processFull.getProcessTrues();
-			proc(processTrues, jsonData);
+			List<ProcessDetail> processDetails = processFull.getProcessTrues();
+			proc(processDetails, jsonData);
 		} else {
-			List<ProcessDetail> processFalses = processFull.getProcessFalses();
-			proc(processFalses, jsonData);
+			List<ProcessDetail> processDetails = processFull.getProcessFalses();
+			proc(processDetails, jsonData);
 		}
 	}
 
 	void process(ProcessDetail processDetail, String jsonData) {
 		ActionFull actionFull = processDetail.getActionFull();
 		Action action = actionFull.getAction();
-
 		String url = action.getUrl();
 		String httpMethod = action.getHttpMethod();
 		List<ActionParam> actionParams = actionFull.getActionParams();
@@ -83,23 +82,28 @@ public class HandlerScenesService extends AbstractHandler {
 		for (ActionParam actionParam : actionParams) {
 			Object data = extractForJsonPath(jsonData, actionParam.getExpression());
 			params.put(actionParam.getTarget(),
-					extractForJsonPath(jsonData, data == null ?
-							actionParam.getDefaultValue() : data.toString()));
+					data == null ?
+							actionParam.getDefaultValue() : data.toString());
 		}
+		log.info("当前正在处理http请求=[{}],param=[{}],httpMethod=[{}]", url, params, httpMethod);
 		sendHttpMessage(url, params, httpMethod);
 	}
 
 	protected void sendHttpMessage(String url, Properties params, String httpMethod) {
-		switch (httpMethod) {
-			case "GET":
-				return;
-			case "POST_FORM":
-				forPostForm(url, params);
-				return;
-			case "POST_JSON":
-				forPostJson(url, params);
-				return;
+		try {
 
+			switch (httpMethod) {
+				case "GET":
+					return;
+				case "POST_FORM":
+					forPostForm(url, params);
+					return;
+				case "POST_JSON":
+					forPostJson(url, params);
+					return;
+			}
+		} catch (Exception e) {
+			log.error("HTTP接口访问失败,url=[{}],param=[{}],httpMethod=[{}]", url, params, httpMethod);
 		}
 	}
 
@@ -143,7 +147,7 @@ public class HandlerScenesService extends AbstractHandler {
 		});
 		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
 		ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
-		System.out.println(response.getBody());
+		log.info("接口返回值=[{}]", response.getBody());
 	}
 
 	/**

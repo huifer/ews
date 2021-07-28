@@ -28,7 +28,9 @@ public class ActionService {
 		Action action = createActionParamReq.getAction();
 		int insert = this.actionMapper.insert(action);
 		if (insert > 0) {
-			int i = this.actionParamMapper.batchInsert(createActionParamReq.getList());
+			List<ActionParam> list = createActionParamReq.getList();
+			list.forEach(s -> s.setActionId(action.getId()));
+			int i = this.actionParamMapper.batchInsert(list);
 			return i > 0;
 		}
 		return false;

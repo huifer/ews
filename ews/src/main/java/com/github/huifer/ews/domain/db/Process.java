@@ -46,4 +46,15 @@ public class Process implements Serializable {
 	 */
 	@TableField(value = "description")
 	private String description;
+
+	@Override
+	public String toString() {
+		return "Process{" +
+				"id=" + id +
+				", scenesId=" + scenesId +
+				", expression='" + expression + '\'' +
+				", name='" + name + '\'' +
+				", description='" + description + '\'' +
+				'}';
+	}
 }
