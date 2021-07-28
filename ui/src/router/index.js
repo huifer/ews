@@ -70,10 +70,32 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/rule',
     children: [{
-      path: 'scenes',
+      path: 'rule',
       name: '规则',
       component: () => import('@/views/rule/rule.vue'),
       meta: { title: '规则', icon: 'dashboard' }
+    }]
+  },
+  {
+    path: '/action',
+    component: Layout,
+    redirect: '/action',
+    children: [{
+      path: 'action',
+      name: '行动',
+      component: () => import('@/views/action/action.vue'),
+      meta: { title: '行动', icon: 'dashboard' }
+    }]
+  },
+  {
+    path: '/process',
+    component: Layout,
+    redirect: '/process',
+    children: [{
+      path: 'process',
+      name: '处理策略',
+      component: () => import('@/views/process/process.vue'),
+      meta: { title: '处理策略', icon: 'dashboard' }
     }]
   },
   // 404 page must be placed at the end !!!

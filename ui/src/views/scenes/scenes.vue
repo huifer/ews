@@ -57,7 +57,7 @@
       :before-close="handleClose"
       :visible.sync="dialogVisible_scenes_create"
       title="创建场景"
-      width="30%"
+      width="75%"
     >
       <el-form :model="scenes_create">
         <el-form-item :label-width="name" label="场景名称">
@@ -110,8 +110,11 @@ export default {
     scenes_create_api() {
       this.dialogVisible_scenes_create = false
       console.log(this.scenes_create)
-      scenesAdd(this.scenes_create)
-      this.initData()
+      scenesAdd(this.scenes_create).then(res => {
+        this.initData()
+      }).then(e => {
+        console.log(e)
+      })
     },
     handleClose(done) {
       this.$confirm('确认关闭？')

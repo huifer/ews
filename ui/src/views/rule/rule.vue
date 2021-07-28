@@ -69,7 +69,7 @@
         :before-close="handleClose"
         :visible.sync="dialogVisible_rule_create"
         title="创建规则"
-        width="30%"
+        width="75%"
       >
         <el-form :model="rule_create">
           <el-form-item :label-width="name" label="规则名称">
@@ -181,8 +181,10 @@ export default {
         comparisonValue: this.rule_create.comparisonValue,
         operator: this.rule_create.operator,
         name: this.rule_create.name
+      }).then(res => {
+
+        this.queryRule()
       })
-      this.queryRule()
     },
     queryRule() {
       ruleQuery({

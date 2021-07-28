@@ -196,10 +196,10 @@
 			and ac.http_method = #{httpMethod}
 		</if>
 		<if test="scenesName != null and scenesName != ''">
-			and sc.name like COUNT('%',#{scenesName},'%')
+			and sc.name like concat('%',#{scenesName},'%')
 		</if>
 		<if test="url != null and url != ''">
-			and ac.url like COUNT('%',#{url,'%')
+			and ac.url like concat('%',#{url,'%')
 		</if>
 	</select>
 </mapper>
