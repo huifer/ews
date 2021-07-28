@@ -8,6 +8,8 @@ import com.github.huifer.ews.mapper.ActionParamMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ActionParamService {
 	@Autowired
@@ -24,4 +26,11 @@ public class ActionParamService {
 		queryWrapper.eq(ActionParam.COL_ACTION_ID, actionId);
 		return actionParamMapper.selectPage(page, queryWrapper);
 	}
+
+	public List<ActionParam> list(Integer actionId) {
+		QueryWrapper<ActionParam> queryWrapper = new QueryWrapper<>();
+		queryWrapper.eq(ActionParam.COL_ACTION_ID, actionId);
+		return actionParamMapper.selectList(queryWrapper);
+	}
+
 }

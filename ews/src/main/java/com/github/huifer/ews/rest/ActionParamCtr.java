@@ -29,4 +29,8 @@ public class ActionParamCtr {
 		));
 	}
 
+	@GetMapping("/list")
+	public ResVO list(Integer actionId){
+		return ResVO.ok(this.actionParamService.list(actionId));
+	}
 }
