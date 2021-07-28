@@ -18,4 +18,6 @@ public interface ScenesMapper extends BaseMapper<Scenes> {
 	int insertOrUpdate(Scenes record);
 
 	int insertOrUpdateSelective(Scenes record);
+
+	List<Integer> findByName(@Param("sceneName") String sceneName);
 }

@@ -9,6 +9,7 @@ import com.github.huifer.ews.domain.dto.ScenesFull;
 import com.github.huifer.ews.mapper.ScenesMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -27,8 +28,12 @@ public class ScenesService {
 	public IPage<Scenes> query(String name, String description, int pageSize, int pageNumber) {
 		IPage<Scenes> page = new Page<>(pageNumber, pageSize);
 		QueryWrapper<Scenes> queryWrapper = new QueryWrapper<>();
-		queryWrapper.like(Scenes.COL_NAME, name);
-		queryWrapper.like(Scenes.COL_DESCRIPTION, description);
+		if (StringUtils.hasText(name)) {
+			queryWrapper.like(Scenes.COL_NAME, name);
+		}
+		if (StringUtils.hasText(description)) {
+			queryWrapper.like(Scenes.COL_DESCRIPTION, description);
+		}
 		IPage<Scenes> page1 = scenesMapper.selectPage(page, queryWrapper);
 		return page1;
 	}
@@ -47,4 +52,16 @@ public class ScenesService {
 	}
 
 
+	public List<Integer> findByName(String sceneName) {
+		return scenesMapper.findByName(sceneName);
+	}
+
+	public Scenes findById(Integer scenesId) {
+		return this.scenesMapper.selectById(scenesId);
+	}
+
+	public List<Scenes> all() {
+		QueryWrapper<Scenes> queryWrapper = new QueryWrapper<>();
+		return this.scenesMapper.selectList(queryWrapper);
+	}
 }

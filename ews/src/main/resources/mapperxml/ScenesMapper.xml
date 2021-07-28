@@ -159,4 +159,8 @@
 			</if>
 		</trim>
 	</insert>
+
+	<select id="findByName" resultType="java.lang.Integer">
+		select id from scenes where name =#{sceneName}
+	</select>
 </mapper>
