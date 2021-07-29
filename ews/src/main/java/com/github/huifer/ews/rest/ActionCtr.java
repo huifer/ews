@@ -35,4 +35,9 @@ public class ActionCtr {
 				pageNumber
 		));
 	}
+
+	@GetMapping("/list")
+	public ResVO list(Integer scId){
+		return ResVO.ok(this.actionService.list(scId));
+	}
 }

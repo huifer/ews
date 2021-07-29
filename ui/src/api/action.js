@@ -15,3 +15,11 @@ export function actionAdd(params) {
     data: params
   })
 }
+
+export function actionList(params) {
+  return request({
+    url: '/action/list',
+    method: 'get',
+    params
+  })
+}

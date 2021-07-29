@@ -14,6 +14,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RuleDetailService {
@@ -62,5 +63,53 @@ public class RuleDetailService {
 
 	public RuleDetail byId(Integer ruleDetailId) {
 		return this.ruleDetailMapper.selectById(ruleDetailId);
+	}
+
+	public List<RuleDetail> ids(List<Integer> ids) {
+		return this.ruleDetailMapper.selectBatchIds(ids);
+	}
+
+	public List<RuleDetailVO> exp(String exp) {
+		List<RuleDetailVO> res = new ArrayList<>();
+		List<RuleDetail> ids = ids(extractRuleId(exp));
+		for (RuleDetail record : ids) {
+			Integer scenesId = record.getScenesId();
+
+			Scenes scenes = this.scenesService.findById(scenesId);
+			String opName = OperatorEnums.oc(record.getOperator()).getName();
+			RuleDetailVO r = new RuleDetailVO(record.getId(), record.getScenesId(), record.getExpression(), record.getComparisonValue(),
+					record.getOperator(), record.getName(), scenes.getName(), opName);
+			res.add(r);
+		}
+		return res;
+	}
+
+	private List<Integer> extractRuleId(String expression) {
+
+		List<String> ss = new ArrayList<String>();
+		for (String sss : expression.replaceAll("[^0-9]", ",").split(",")) {
+			if (sss.length() > 0) {
+				ss.add(sss);
+			}
+		}
+		List<Integer> collect = ss.stream().map(s -> Integer.parseInt(s)).collect(Collectors.toList());
+		return collect;
+	}
+
+	public List<RuleDetailVO> listForScId(Integer scId) {
+		List<RuleDetailVO> res = new ArrayList<>();
+		QueryWrapper<RuleDetail> queryWrapper = new QueryWrapper<>();
+		queryWrapper.eq(RuleDetail.COL_SCENES_ID, scId);
+		List<RuleDetail> ids = this.ruleDetailMapper.selectList(queryWrapper);
+		for (RuleDetail record : ids) {
+			Integer scenesId = record.getScenesId();
+
+			Scenes scenes = this.scenesService.findById(scenesId);
+			String opName = OperatorEnums.oc(record.getOperator()).getName();
+			RuleDetailVO r = new RuleDetailVO(record.getId(), record.getScenesId(), record.getExpression(), record.getComparisonValue(),
+					record.getOperator(), record.getName(), scenes.getName(), opName);
+			res.add(r);
+		}
+		return res;
 	}
 }

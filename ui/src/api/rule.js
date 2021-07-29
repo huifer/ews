@@ -15,3 +15,27 @@ export function ruleAdd(data) {
     data: data
   })
 }
+
+export function ruleIds(params) {
+  return request({
+    url: '/rule/ids',
+    method: 'get',
+    params
+  })
+}
+
+export function ruleExp(params) {
+  return request({
+    url: '/rule/exp',
+    method: 'get',
+    params
+  })
+}
+
+export function ruleScId(params) {
+  return request({
+    url: '/rule/scId',
+    method: 'get',
+    params
+  })
+}

@@ -75,4 +75,13 @@ public class ActionService {
 
 		return null;
 	}
+
+	public List<Action> list(Integer scId) {
+		QueryWrapper<Action> queryWrapper = new QueryWrapper<>();
+		if (scId != null) {
+			queryWrapper.eq(Action.COL_SCENES_ID, scId);
+		}
+		List<Action> actionParams = actionMapper.selectList(queryWrapper);
+		return actionParams;
+	}
 }

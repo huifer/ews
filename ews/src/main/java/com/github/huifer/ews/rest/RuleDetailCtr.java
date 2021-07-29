@@ -6,6 +6,8 @@ import com.github.huifer.ews.service.RuleDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/rule")
 @CrossOrigin
@@ -27,5 +29,20 @@ public class RuleDetailCtr {
 				pageSize,
 				pageNumber
 		));
+	}
+
+	@GetMapping("/ids")
+	public ResVO ids(List<Integer> ids) {
+		return ResVO.ok(this.ruleDetailService.ids(ids));
+	}
+
+	@GetMapping("/exp")
+	public ResVO ids(String exp) {
+		return ResVO.ok(this.ruleDetailService.exp(exp));
+	}
+
+	@GetMapping("/scId")
+	public ResVO listForScId(Integer scId) {
+		return ResVO.ok(this.ruleDetailService.listForScId(scId));
 	}
 }

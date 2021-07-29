@@ -184,4 +184,20 @@
 			</if>
 		</trim>
 	</insert>
+
+	<select id="queryPage" resultType="com.github.huifer.ews.domain.res.ProcessVO">
+		select p.*,
+		s.name as sceneName
+		from process p left join scenes s on p.scenes_id = s.id
+		where 1=1
+		<if test="scenesId != null">
+			and s.id = #{scenesId}
+		</if>
+		<if test="description != null and description != ''">
+			and p.description like concat("%",#{description},"%")
+		</if>
+		<if test="name != null and name != ''">
+			and p.name like concat('%',#{name},'%')
+		</if>
+	</select>
 </mapper>
