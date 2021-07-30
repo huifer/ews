@@ -135,7 +135,7 @@ public class HandlerScenesService extends AbstractHandler {
 		HttpEntity<String> request = new HttpEntity<>(paramsJson, headers);
 		ResponseEntity<String> postForEntity = restTemplate.postForEntity(url, request, String.class);
 		String body = postForEntity.getBody();
-		System.out.println(body);
+		log.info("接口返回值=[{}]", body);
 	}
 
 	protected void forPostForm(String url, Properties params) {

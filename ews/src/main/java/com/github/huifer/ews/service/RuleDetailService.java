@@ -51,7 +51,7 @@ public class RuleDetailService {
 			Integer scenesId = record.getScenesId();
 
 			Scenes scenes = this.scenesService.findById(scenesId);
-			String opName = OperatorEnums.oc(record.getOperator()).getName();
+			String opName = OperatorEnums.oc(record.getOperator()).getCode();
 			RuleDetailVO r = new RuleDetailVO(record.getId(), record.getScenesId(), record.getExpression(), record.getComparisonValue(),
 					record.getOperator(), record.getName(), scenes.getName(), opName);
 			res.add(r);
@@ -76,7 +76,7 @@ public class RuleDetailService {
 			Integer scenesId = record.getScenesId();
 
 			Scenes scenes = this.scenesService.findById(scenesId);
-			String opName = OperatorEnums.oc(record.getOperator()).getName();
+			String opName = OperatorEnums.oc(record.getOperator()).getCode();
 			RuleDetailVO r = new RuleDetailVO(record.getId(), record.getScenesId(), record.getExpression(), record.getComparisonValue(),
 					record.getOperator(), record.getName(), scenes.getName(), opName);
 			res.add(r);
@@ -105,7 +105,7 @@ public class RuleDetailService {
 			Integer scenesId = record.getScenesId();
 
 			Scenes scenes = this.scenesService.findById(scenesId);
-			String opName = OperatorEnums.oc(record.getOperator()).getName();
+			String opName = OperatorEnums.oc(record.getOperator()).getCode();
 			RuleDetailVO r = new RuleDetailVO(record.getId(), record.getScenesId(), record.getExpression(), record.getComparisonValue(),
 					record.getOperator(), record.getName(), scenes.getName(), opName);
 			res.add(r);

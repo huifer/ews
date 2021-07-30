@@ -78,7 +78,8 @@ public class ProcessService {
 		List<Process> processes = this.processMapper.selectList(queryWrapper);
 		List<ProcessFull> fulls = new ArrayList<>();
 		for (Process process : processes) {
-			fulls.add(full(process.getId()));
+			ProcessFull full = full(process.getId());
+			fulls.add(full);
 		}
 		return fulls;
 	}
@@ -89,9 +90,10 @@ public class ProcessService {
 			ProcessFull processFull = new ProcessFull();
 			processFull.setProcess(process);
 
-			handlerWithTrueProcess(processId, process, processFull);
-			handlerWithFalseProcess(processId, process, processFull);
-
+			List<ProcessDetail> processDetails = handlerWithTrueProcess(processId, process);
+			processFull.setProcessTrues(processDetails);
+			List<ProcessDetail> processDetails1 = handlerWithFalseProcess(processId, process);
+			processFull.setProcessFalses(processDetails1);
 			return processFull;
 
 		}
@@ -99,7 +101,7 @@ public class ProcessService {
 		return null;
 	}
 
-	private void handlerWithFalseProcess(Integer processId, Process process, ProcessFull processFull) {
+	private List<ProcessDetail> handlerWithFalseProcess(Integer processId, Process process) {
 		QueryWrapper<ProcessFalse> queryWrapper = new QueryWrapper<>();
 		queryWrapper.eq(ProcessFalse.COL_PROCESS_ID, processId);
 		List<ProcessFalse> falses = this.processFalseMapper.selectList(queryWrapper);
@@ -116,10 +118,10 @@ public class ProcessService {
 			processDetail.setActionFull(actionFull);
 			processTrues.add(processDetail);
 		}
-		processFull.setProcessTrues(processTrues);
+		return processTrues;
 	}
 
-	private void handlerWithTrueProcess(Integer processId, Process process, ProcessFull processFull) {
+	private List<ProcessDetail> handlerWithTrueProcess(Integer processId, Process process) {
 		QueryWrapper<ProcessTrue> queryWrapper = new QueryWrapper<>();
 		queryWrapper.eq(ProcessTrue.COL_PROCESS_ID, processId);
 		List<ProcessTrue> trues = this.processTrueMapper.selectList(queryWrapper);
@@ -135,7 +137,7 @@ public class ProcessService {
 			processDetail.setActionFull(actionFull);
 			processTrues.add(processDetail);
 		}
-		processFull.setProcessTrues(processTrues);
+		return processTrues;
 	}
 
 	public List<Process> list() {
